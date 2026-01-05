@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Welcome • Perveg Seat Cover</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="cssStyle.css">
+
+
+</head>
+
+<body>
+
+    <!-- Top navigation / brand -->
+    <header>
+        <div class="nav">
+            <div class="brand">
+                <div class="brand-badge" aria-hidden="true"></div>
+                <div>
+                    <h1>Perveg Seat Cover</h1>
+                    <div class="shop-sub">Motorcycle seat covers & accessories</div>
+                </div>
+            </div>
+            <div class="chip">Dhaka • Since 2016</div>
+        </div>
+    </header>
+
+    <!-- Hero: welcome and CTA -->
+    <main>
+        <section class="hero">
+            <div>
+                <div class="badge">
+                    <!-- wrench icon -->
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M14.7 6.3a4 4 0 11-5.66 5.66L3 18l3 3 6.04-6.04a4 4 0 005.66-5.66L14.7 6.3z" />
+                    </svg>
+                    Trusted motorcycle care & records
+                </div>
+
+                <div class="cta secondary-cta">
+                    <button class="nav-btn outline">Go to Dashboard</button>
+                </div>
+
+                <h2 class="title">Welcome to Perveg Seat Cover’s Shop</h2>
+
+                <p class="lead">
+                    Keep your daily sales, buying costs, and profit tidy and transparent.
+                    Start today’s record in a click—
+                </p>
+                <div class="cta">
+                    <button class="start" id="startToday">Start today’s calculation</button>
+                </div>
+
+
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- add record -->
+    <section class="add-record">
+        <div class="add-record-head">
+            <h3>Add Today’s Record</h3>
+
+            <!-- Plus button in header -->
+            <button type="button" class="add-row-btn header-add-btn">＋</button>
+        </div>
+
+        <form id="dailyRecordForm">
+
+            <!-- Product name row -->
+            <div class="record-row">
+                <input type="text" placeholder="Product name" required />
+            </div>
+
+            <!-- Buying row -->
+            <div class="record-row">
+                <input type="number" placeholder="Buying price" required />
+            </div>
+
+            <!-- Selling row -->
+            <div class="record-row">
+                <input type="number" placeholder="Selling price" required />
+            </div>
+
+            <div class="form-footer">
+                <button type="submit" class="submit-btn">Save Record</button>
+            </div>
+
+        </form>
+    </section>
+
+    <!-- sales records and cost records -->
+    <div >
+        <!-- records table -->
+        <section class="records-table-section">
+            <div class="records-head">
+
+                <button class="nav-btn ghost left-btn">← Dashboard</button>
+
+                <h3 class="records-title">
+                    <div class="date">01/05/2026</div>
+                    Sales Records
+                </h3>
+
+                <button class="nav-btn ghost right-btn">＋ Add Sales</button>
+            </div>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Product Name</th>
+                            <th>Buying Price</th>
+                            <th>Selling Price</th>
+                            <th>Profit</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr>
+                            <td>Premium Seat Cover</td>
+                            <td>৳1,200</td>
+                            <td>৳1,600</td>
+                            <td class="profit">৳400</td>
+                            <td><button class="icon-btn edit">✏️</button></td>
+                            <td><button class="icon-btn delete">🗑️</button></td>
+                        </tr>
+
+                        <tr>
+                            <td>Waterproof Seat Cover</td>
+                            <td>৳900</td>
+                            <td>৳1,250</td>
+                            <td class="profit">৳350</td>
+                            <td><button class="icon-btn edit">✏️</button></td>
+                            <td><button class="icon-btn delete">🗑️</button></td>
+                        </tr>
+
+                        <tr>
+                            <td>Bike Handle Grip</td>
+                            <td>৳300</td>
+                            <td>৳450</td>
+                            <td class="profit">৳150</td>
+                            <td><button class="icon-btn edit">✏️</button></td>
+                            <td><button class="icon-btn delete">🗑️</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="records-summary">
+                <div class="TotalSelling">
+                    Total Selling: ৳3,300
+                </div>
+                <div class="TotalProfit">
+                    Total Profit: ৳900
+                </div>
+            </div>
+
+        </section>
+
+        <!-- Cost Records -->
+        <div class="cost-section">
+            <div class="cost-head">
+                <h3>Daily Cost Records</h3>
+                <button class="add-cost-btn">＋ Add Cost</button>
+            </div>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Cost Details</th>
+                            <th>Cost Amount</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Employee Lunch</td>
+                            <td class="cost-amount">৳250</td>
+                            <td><button class="icon-btn edit">✏️</button></td>
+                            <td><button class="icon-btn delete">🗑️</button></td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Transport Cost</td>
+                            <td class="cost-amount">৳150</td>
+                            <td><button class="icon-btn edit">✏️</button></td>
+                            <td><button class="icon-btn delete">🗑️</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="cost-summary">
+                <span class="totalCost">Total Cost: ৳400</span> 
+                <span class="netProfit">Net profit: ৳400</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- DashBoard List -->
+    <section class="dashboard-list">
+        <h3 class="dashboard-title">Dashboard Daily Sales Records</h3>
+
+        <ul class="record-items">
+            <li>
+                <span class="record-date">2026-01-02</span>
+                <div class="record-actions">
+                    <button class="action-btn open">Open</button>
+                    <button class="action-btn delete">Delete</button>
+                </div>
+            </li>
+            <li>
+                <span class="record-date">2026-01-02</span>
+                <div class="record-actions">
+                    <button class="action-btn open">Open</button>
+                    <button class="action-btn delete">Delete</button>
+                </div>
+            </li>
+            <li>
+                <span class="record-date">2026-01-03</span>
+                <div class="record-actions">
+                    <button class="action-btn open">Open</button>
+                    <button class="action-btn delete">Delete</button>
+                </div>
+            </li>
+            <li>
+                <span class="record-date">2026-01-04</span>
+                <div class="record-actions">
+                    <button class="action-btn open">Open</button>
+                    <button class="action-btn delete">Delete</button>
+                </div>
+            </li>
+        </ul>
+    </section>
+
+
+    <!-- Add Cost Record Form -->
+    <section class="cost-form">
+        <h3>Add Cost Records</h3>
+
+        <form>
+            <!-- Cost Details -->
+            <div class="record-row single">
+                <input type="text" placeholder="Cost details (Lunch, salary, transport)" required />
+            </div>
+
+            <!-- Cost Amount -->
+            <div class="record-row single">
+                <input type="number" placeholder="Cost amount" required />
+            </div>
+
+            <div class="form-footer">
+                <button type="submit" class="submit-btn">Add Cost</button>
+            </div>
+        </form>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-wrap">
+            <div class="copyright">
+                © <span id="year">2026</span> Perveg Sit Cover — Crafted by Muhammad Apu
+            </div>
+        </div>
+    </footer>
+
+</body>
+
+</html>
