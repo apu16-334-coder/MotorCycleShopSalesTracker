@@ -6,8 +6,6 @@
     <title>Welcome • Perveg Seat Cover</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="cssStyle.css">
-
-
 </head>
 
 <body>
@@ -27,64 +25,58 @@
     </header>
 
     <!-- Hero: welcome and CTA -->
-    <main>
-        <section class="hero">
-            <div>
-                <div class="badge">
-                    <!-- wrench icon -->
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M14.7 6.3a4 4 0 11-5.66 5.66L3 18l3 3 6.04-6.04a4 4 0 005.66-5.66L14.7 6.3z" />
-                    </svg>
-                    Trusted motorcycle care & records
-                </div>
-
-                <div class="cta secondary-cta">
-                    <button class="nav-btn outline">Go to Dashboard</button>
-                </div>
-
-                <h2 class="title">Welcome to Perveg Seat Cover’s Shop</h2>
-
-                <p class="lead">
-                    Keep your daily sales, buying costs, and profit tidy and transparent.
-                    Start today’s record in a click—
-                </p>
-                <div class="cta">
-                    <button class="start" id="startToday">Start today’s calculation</button>
-                </div>
-
-
-
+    <section class="hero">
+        <div>
+            <div class="badge">
+                <!-- wrench icon -->
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M14.7 6.3a4 4 0 11-5.66 5.66L3 18l3 3 6.04-6.04a4 4 0 005.66-5.66L14.7 6.3z" />
+                </svg>
+                Trusted motorcycle care & records
             </div>
 
-        </section>
+            <div class="cta secondary-cta">
+                <button id="btnDashboard" class="nav-btn outline">Go to Dashboard</button>
+            </div>
 
-    </main>
+            <h2 class="title">Welcome to Perveg Seat Cover’s Shop</h2>
+
+            <p class="lead">
+                Keep your daily sales, buying costs, and profit tidy and transparent.
+                Start today’s record in a click—
+            </p>
+            <div class="cta">
+                <button class="start" id="startToday">Start today’s calculation</button>
+            </div>
+        </div>
+    </section>
 
     <!-- add record -->
     <section class="add-record">
         <div class="add-record-head">
             <h3>Add Today’s Record</h3>
-
             <!-- Plus button in header -->
             <button type="button" class="add-row-btn header-add-btn">＋</button>
         </div>
 
         <form id="dailyRecordForm">
 
-            <!-- Product name row -->
-            <div class="record-row">
-                <input type="text" placeholder="Product name" required />
-            </div>
+            <div class="salesFields">
+                <!-- Product name row -->
+                <div class="record-row">
+                    <input type="text" placeholder="Product name" required />
+                </div>
 
-            <!-- Buying row -->
-            <div class="record-row">
-                <input type="number" placeholder="Buying price" required />
-            </div>
+                <!-- Buying row -->
+                <div class="record-row">
+                    <input type="number" placeholder="Buying price" required />
+                </div>
 
-            <!-- Selling row -->
-            <div class="record-row">
-                <input type="number" placeholder="Selling price" required />
+                <!-- Selling row -->
+                <div class="record-row">
+                    <input type="number" placeholder="Selling price" required />
+                </div>
             </div>
 
             <div class="form-footer">
@@ -95,7 +87,7 @@
     </section>
 
     <!-- sales records and cost records -->
-    <div >
+    <div class="sales-cost-records">
         <!-- records table -->
         <section class="records-table-section">
             <div class="records-head">
@@ -203,7 +195,7 @@
             </div>
 
             <div class="cost-summary">
-                <span class="totalCost">Total Cost: ৳400</span> 
+                <span class="totalCost">Total Cost: ৳400</span>
                 <span class="netProfit">Net profit: ৳400</span>
             </div>
         </div>
@@ -275,6 +267,8 @@
             </div>
         </div>
     </footer>
+
+    <script src="script.js"></script>
 
 </body>
 

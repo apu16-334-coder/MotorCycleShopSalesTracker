@@ -120,9 +120,10 @@ header {
 }
 
 .title {
+
     font-weight: 800;
     line-height: 1.1;
-    margin: 0 0 1rem;
+    margin: 5rem 0 1rem;
     font-size: clamp(2rem, 4.5vw, 3.25rem);
     background: linear-gradient(90deg, #0f172a, #047857);
     -webkit-background-clip: text;
@@ -214,6 +215,7 @@ header {
    ADD RECORD SECTION
    ===================================================== */
 .add-record {
+    display: none;
     max-width: 1100px;
     margin: 3rem auto;
     padding: 1.75rem 1.25rem 2rem;
@@ -312,6 +314,10 @@ header {
 /* =====================================================
    RECORDS TABLE SECTION
    ===================================================== */
+.sales-cost-records {
+    display: none;
+}
+
 .records-table-section {
     max-width: 1100px;
     margin: 3rem auto;
@@ -452,6 +458,7 @@ tbody tr:hover {
    DASHBOARD LIST
    ===================================================== */
 .dashboard-list {
+    display: none;
     max-width: 1100px;
     margin: 2rem auto;
     padding-bottom: 1rem;
@@ -599,6 +606,7 @@ tbody tr:hover {
    COST FORM
    ===================================================== */
 .cost-form {
+    display: none;
     max-width: 1100px;
     margin: 2rem auto;
     padding: 1rem 1rem;
