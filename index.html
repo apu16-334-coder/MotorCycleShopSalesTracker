@@ -57,7 +57,7 @@
         <div class="add-record-head">
             <h3>Add Today’s Record</h3>
             <!-- Plus button in header -->
-            <button type="button" class="add-row-btn header-add-btn">＋</button>
+            <button id="addSalesFields" type="button" class="add-row-btn header-add-btn">＋</button>
         </div>
 
         <form id="dailyRecordForm">
@@ -79,8 +79,8 @@
                 </div>
             </div>
 
-            <div class="form-footer">
-                <button type="submit" class="submit-btn">Save Record</button>
+            <div id="sales-form-footer" class="form-footer">
+                <button id="addSalesRecord" type="submit" class="submit-btn">Save Record</button>
             </div>
 
         </form>
@@ -95,7 +95,7 @@
                 <button class="nav-btn ghost left-btn">← Dashboard</button>
 
                 <h3 class="records-title">
-                    <div class="date">01/05/2026</div>
+                    <div id="date">01/05/2026</div>
                     Sales Records
                 </h3>
 
@@ -115,34 +115,7 @@
                         </tr>
                     </thead>
 
-                    <tbody>
-                        <tr>
-                            <td>Premium Seat Cover</td>
-                            <td>৳1,200</td>
-                            <td>৳1,600</td>
-                            <td class="profit">৳400</td>
-                            <td><button class="icon-btn edit">✏️</button></td>
-                            <td><button class="icon-btn delete">🗑️</button></td>
-                        </tr>
-
-                        <tr>
-                            <td>Waterproof Seat Cover</td>
-                            <td>৳900</td>
-                            <td>৳1,250</td>
-                            <td class="profit">৳350</td>
-                            <td><button class="icon-btn edit">✏️</button></td>
-                            <td><button class="icon-btn delete">🗑️</button></td>
-                        </tr>
-
-                        <tr>
-                            <td>Bike Handle Grip</td>
-                            <td>৳300</td>
-                            <td>৳450</td>
-                            <td class="profit">৳150</td>
-                            <td><button class="icon-btn edit">✏️</button></td>
-                            <td><button class="icon-btn delete">🗑️</button></td>
-                        </tr>
-                    </tbody>
+                    <tbody id="tableBody"></tbody>
                 </table>
             </div>
 
