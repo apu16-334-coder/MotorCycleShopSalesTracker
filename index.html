@@ -92,14 +92,14 @@
         <section class="records-table-section">
             <div class="records-head">
 
-                <button class="nav-btn ghost left-btn">← Dashboard</button>
+                <button id="dashboardBtn" class="nav-btn ghost left-btn">← Dashboard</button>
 
                 <h3 class="records-title">
                     <div id="date">01/05/2026</div>
                     Sales Records
                 </h3>
 
-                <button class="nav-btn ghost right-btn">＋ Add Sales</button>
+                <button id="salesFormBtn" class="nav-btn ghost right-btn">＋ Add Sales</button>
             </div>
 
             <div class="table-wrap">
@@ -120,11 +120,11 @@
             </div>
 
             <div class="records-summary">
-                <div class="TotalSelling">
-                    Total Selling: ৳3,300
+                <div>
+                    Total Selling: ৳<span class="TotalSelling"></span>
                 </div>
-                <div class="TotalProfit">
-                    Total Profit: ৳900
+                <div>
+                    Total Profit: ৳<span class="TotalProfit"></span>
                 </div>
             </div>
 
