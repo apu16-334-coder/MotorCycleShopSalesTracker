@@ -7,6 +7,9 @@
     const dashboardList = document.querySelector(".dashboard-list")
     const costForm = document.querySelector(".cost-form")
 
+    const salesFields = document.querySelector(".salesFields");
+
+
     // Today
     const currentDate = new Date().toLocaleDateString();
     // console.log(currentDate)
@@ -19,14 +22,20 @@
 
     document.getElementById("startToday").addEventListener("click", createTodayRecords)
 
-    document.getElementById("btnDashboard").addEventListener("click", showDashBoard)
-
     document.getElementById("addSalesFields").addEventListener("click", addingRowsInSalesForm)
 
 
     document.getElementById("dailyRecordForm").addEventListener("submit", addingSalesRecords)
 
-    document.getElementById("dashboardBtn").addEventListener("click", showDashBoard)
+    document.querySelectorAll(".btnDashboard").forEach((element) => {
+        element.addEventListener("click", showDashBoard);
+    })
+
+    document.querySelectorAll(".sales_records").forEach((element) => {
+        element.addEventListener("click", () => {
+            showSalesRecords(currentDate);
+        })
+    })
 
     document.getElementById("salesFormBtn").addEventListener("click", makeReadyForInsertSalesRecords)
 
@@ -34,12 +43,17 @@
         return JSON.parse(localStorage.getItem("dates"))
     }
 
+    function setDatesArray(datesArray) {
+        localStorage.setItem("dates", JSON.stringify(datesArray))
+
+    }
+
     function createTodayRecords() {
         let datesArray = []
         // if datesArrayString is empty
         if (!fetchDatesArray()) {
             datesArray.push(currentDate)
-            localStorage.setItem("dates", JSON.stringify(datesArray))
+            setDatesArray(datesArray)
             makeReadyForInsertSalesRecords()
             return;
         }
@@ -48,7 +62,7 @@
 
         if (!datesArray.includes(currentDate)) {
             datesArray.push(currentDate)
-            localStorage.setItem("dates", JSON.stringify(datesArray))
+            setDatesArray(datesArray)
             makeReadyForInsertSalesRecords()
             return;
         }
@@ -67,6 +81,7 @@
 
     function showSalesRecords(date) {
         const tableBody = document.getElementById("tableBody")
+        tableBody.innerHTML = "";
 
         hero.style.display = "none";
         addRecord.style.display = "none";
@@ -80,24 +95,56 @@
         let totalSelling = 0, totalProfit = 0;
 
         if (salesRecordsArray) {
-            for (const record of salesRecordsArray) {
+            salesRecordsArray.forEach((record, i) => {
                 let tableRow = document.createElement("tr");
                 tableRow.innerHTML = `<td>${record.productName}</td>
                             <td>${record.buyingPrice}</td>
                             <td>${record.sellingPrice}</td>
                             <td class="profit">${record.profit}</td>
-                            <td><button class="icon-btn edit">✏️</button></td>
-                            <td><button class="icon-btn delete">🗑️</button></td>`
+                            <td><button data-index="${i}" class="icon-btn edit">✏️</button></td>
+                            <td><button data-index="${i}" class="icon-btn delete">🗑️</button></td>`
                 tableBody.appendChild(tableRow)
+                // console.log(tableRow.querySelector(".edit"))
+                // console.log(tableRow.querySelector(".delete"))
+                tableRow.querySelector(".edit").addEventListener("click", editTheRecord)
+                tableRow.querySelector(".delete").addEventListener("click", deleteTheRecord)
+
                 totalSelling += Number(record.sellingPrice);
                 totalProfit += Number(record.profit);
-            }
+            })
+
         }
-        console.log(totalSelling+" "+totalProfit)
+        console.log(totalSelling + " " + totalProfit)
         totalSellingObj.textContent = totalSelling;
         totalProfitObj.textContent = totalProfit;
 
         salesCostRecords.style.display = "block";
+    }
+
+
+    function editTheRecord(e) {
+        console.log(e.target.dataset.index)
+        let date = document.getElementById("date").textContent
+        console.log(date)
+        let dailyRecordsArray = fetchSalesRecords(date)
+        console.log(dailyRecordsArray.splice(e.target.dataset.index, 1));
+        console.log(dailyRecordsArray);
+        dailyRecordsArray.forEach((record, i) => {
+            appendTableRow(record, i);
+        })
+
+    }
+
+    function deleteTheRecord(e) {
+        console.log(e.target.dataset.index)
+        let date = document.getElementById("date").textContent
+        console.log(date)
+        let dailyRecordsArray = fetchSalesRecords(date)
+        console.log(dailyRecordsArray.splice(e.target.dataset.index, 1));
+        console.log(dailyRecordsArray);
+        dailyRecordsArray.forEach((record, i) => {
+            appendTableRow(record, i);
+        })
     }
 
     function fetchSalesRecords(date) {
@@ -115,30 +162,38 @@
 
     function addingRowsInSalesForm() {
         const SalesFormFooter = document.getElementById("sales-form-footer")
-        const salesFields = document.querySelector(".salesFields");
-        const newSalesFields = salesFields.cloneNode(true);
-        for (const element of newSalesFields.querySelectorAll("input")) {
+        const newSalesFields = makeNewSetOffSalesInputField() 
+        makeSalesInputFieldEmpty(newSalesFields)
+        salesFields.parentNode.insertBefore(newSalesFields, SalesFormFooter)
+    }
+
+    function makeSalesInputFieldEmpty(salesFieldsRow) {
+        for (const element of salesFieldsRow.querySelectorAll("input")) {
             element.value = "";
         }
+    }
 
-        salesFields.parentNode.insertBefore(newSalesFields, SalesFormFooter)
+    function makeNewSetOffSalesInputField() {       
+        const newSalesFields = salesFields.cloneNode(true);       
+        return newSalesFields;
     }
 
     function addingSalesRecords(e) {
         e.preventDefault()
         const allSalesFields = document.querySelectorAll(".salesFields")
+        console.log("called adding sales records");
+        
 
-        let salesRecordsArray = fetchSalesRecords()
+        let salesRecordsArray = fetchSalesRecords(currentDate)
 
         if (!salesRecordsArray) {
             salesRecordsArray = []
         }
 
-        for (const salesFields of allSalesFields) {
-
-            const productName = salesFields.querySelector('input[placeholder="Product name"]').value;
-            const buyingPrice = salesFields.querySelector('input[placeholder="Buying price"]').value;
-            const sellingPrice = salesFields.querySelector('input[placeholder="Selling price"]').value;
+        allSalesFields.forEach((salesField, i)=>{
+            const productName = salesField.querySelector('input[placeholder="Product name"]').value;
+            const buyingPrice = salesField.querySelector('input[placeholder="Buying price"]').value;
+            const sellingPrice = salesField.querySelector('input[placeholder="Selling price"]').value;
 
             salesRecordsArray.push({
                 "productName": productName,
@@ -148,7 +203,13 @@
             })
 
             localStorage.setItem(currentDate, JSON.stringify(salesRecordsArray))
-        }
+            if(allSalesFields.length-1 >i) {
+                salesField.parentNode.removeChild(salesField);
+            }else {
+                makeSalesInputFieldEmpty(salesField);
+            }
+        })
+        
 
         showSalesRecords(currentDate)
     }
@@ -157,7 +218,7 @@
 
 })()
 
-// localStorage.clear()
+localStorage.clear()
 
 
 
