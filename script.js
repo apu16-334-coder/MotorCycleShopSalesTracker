@@ -7,7 +7,8 @@
     const dashboardList = document.querySelector(".dashboard-list")
     const costForm = document.querySelector(".cost-form")
 
-    const salesFields = document.querySelector(".salesFields");
+
+    let editFlag = false, editIndex, editDate;
 
 
     // Today
@@ -25,7 +26,14 @@
     document.getElementById("addSalesFields").addEventListener("click", addingRowsInSalesForm)
 
 
-    document.getElementById("dailyRecordForm").addEventListener("submit", addingSalesRecords)
+    document.getElementById("dailyRecordForm").addEventListener("submit", (event) => {
+        console.log(editFlag)
+        if (editFlag) {
+            addEditSalesRecords(event)
+        } else {
+            addingSalesRecords(event)
+        }
+    })
 
     document.querySelectorAll(".btnDashboard").forEach((element) => {
         element.addEventListener("click", showDashBoard);
@@ -37,7 +45,26 @@
         })
     })
 
-    document.getElementById("salesFormBtn").addEventListener("click", makeReadyForInsertSalesRecords)
+    document.getElementById("salesFormBtn").addEventListener("click", () => {
+        makeReadyForInsertSalesRecords()
+    })
+
+    function addEditSalesRecords(event) {
+        event.preventDefault()
+        console.log("editing......")
+        const allFieldsValue = getTheFieldsvalue(document.querySelector(".salesFields"))       
+        const record = makeASalesRecord(allFieldsValue)
+        console.log(record)
+        const salesRecordsArray = fetchSalesRecords(editDate)
+
+        salesRecordsArray.splice(editIndex, 1, record);
+
+        console.log(salesRecordsArray)
+
+        setSalesRecordsArray(salesRecordsArray)
+
+        showSalesRecords(editDate)
+    }
 
     function fetchDatesArray() {
         return JSON.parse(localStorage.getItem("dates"))
@@ -45,7 +72,6 @@
 
     function setDatesArray(datesArray) {
         localStorage.setItem("dates", JSON.stringify(datesArray))
-
     }
 
     function createTodayRecords() {
@@ -76,7 +102,18 @@
         dashboardList.style.display = "none";
         costForm.style.display = "none";
 
+        const allSalesFields = document.querySelectorAll(".salesFields")
+
+        allSalesFields.forEach((element, i) => {
+            if (i === 0) {
+                makeSalesInputFieldEmpty(element);
+            } else {
+                element.parentNode.removeChild(element);
+            }
+        })
+
         addRecord.style.display = "block";
+        editFlag = false;
     }
 
     function showSalesRecords(date) {
@@ -106,7 +143,7 @@
                 tableBody.appendChild(tableRow)
                 // console.log(tableRow.querySelector(".edit"))
                 // console.log(tableRow.querySelector(".delete"))
-                tableRow.querySelector(".edit").addEventListener("click", editTheRecord)
+                tableRow.querySelector(".edit").addEventListener("click", makeReadyToEditTheRecord)
                 tableRow.querySelector(".delete").addEventListener("click", deleteTheRecord)
 
                 totalSelling += Number(record.sellingPrice);
@@ -121,30 +158,39 @@
         salesCostRecords.style.display = "block";
     }
 
+    function makeReadyToEditTheRecord(event) {
+        editIndex = event.target.dataset.index
+        console.log(editIndex)
+        editDate = document.getElementById("date").textContent
+        console.log(editDate)
+        
+        let theRecord = fetchSalesRecords(editDate)[editIndex]
+        console.log(theRecord)
 
-    function editTheRecord(e) {
-        console.log(e.target.dataset.index)
-        let date = document.getElementById("date").textContent
-        console.log(date)
-        let dailyRecordsArray = fetchSalesRecords(date)
-        console.log(dailyRecordsArray.splice(e.target.dataset.index, 1));
-        console.log(dailyRecordsArray);
-        dailyRecordsArray.forEach((record, i) => {
-            appendTableRow(record, i);
-        })
+        const productName = theRecord.productName;
+        const buyingPrice = theRecord.buyingPrice;
+        const sellingPrice = theRecord.sellingPrice;
 
+        makeReadyForInsertSalesRecords()
+
+        const salesFields = document.querySelector(".salesFields");
+        salesFields.querySelector('input[placeholder="Product name"]').value = productName;
+        salesFields.querySelector('input[placeholder="Buying price"]').value = buyingPrice;
+        salesFields.querySelector('input[placeholder="Selling price"]').value = sellingPrice;
+
+        editFlag = true;
     }
 
     function deleteTheRecord(e) {
         console.log(e.target.dataset.index)
         let date = document.getElementById("date").textContent
         console.log(date)
-        let dailyRecordsArray = fetchSalesRecords(date)
-        console.log(dailyRecordsArray.splice(e.target.dataset.index, 1));
-        console.log(dailyRecordsArray);
-        dailyRecordsArray.forEach((record, i) => {
-            appendTableRow(record, i);
-        })
+        let salesRecordsArray = fetchSalesRecords(date)
+        salesRecordsArray.splice(e.target.dataset.index, 1)
+        console.log(salesRecordsArray);
+        
+        setSalesRecordsArray(salesRecordsArray)
+        showSalesRecords(date)
     }
 
     function fetchSalesRecords(date) {
@@ -161,8 +207,9 @@
     }
 
     function addingRowsInSalesForm() {
+        const salesFields = document.querySelector(".salesFields");
         const SalesFormFooter = document.getElementById("sales-form-footer")
-        const newSalesFields = makeNewSetOffSalesInputField() 
+        const newSalesFields = makeNewSetOffSalesInputField(salesFields)
         makeSalesInputFieldEmpty(newSalesFields)
         salesFields.parentNode.insertBefore(newSalesFields, SalesFormFooter)
     }
@@ -173,16 +220,15 @@
         }
     }
 
-    function makeNewSetOffSalesInputField() {       
-        const newSalesFields = salesFields.cloneNode(true);       
+    function makeNewSetOffSalesInputField(salesFields) {
+        const newSalesFields = salesFields.cloneNode(true);
         return newSalesFields;
     }
 
-    function addingSalesRecords(e) {
-        e.preventDefault()
+    function addingSalesRecords(event) {
+        event.preventDefault()
         const allSalesFields = document.querySelectorAll(".salesFields")
         console.log("called adding sales records");
-        
 
         let salesRecordsArray = fetchSalesRecords(currentDate)
 
@@ -190,35 +236,43 @@
             salesRecordsArray = []
         }
 
-        allSalesFields.forEach((salesField, i)=>{
-            const productName = salesField.querySelector('input[placeholder="Product name"]').value;
-            const buyingPrice = salesField.querySelector('input[placeholder="Buying price"]').value;
-            const sellingPrice = salesField.querySelector('input[placeholder="Selling price"]').value;
+        allSalesFields.forEach((salesField, i) => {
+            const allFieldsValue = getTheFieldsvalue(salesField)
+            const record = makeASalesRecord(allFieldsValue)
+            
+            salesRecordsArray.push(record)
 
-            salesRecordsArray.push({
-                "productName": productName,
-                "buyingPrice": buyingPrice,
-                "sellingPrice": sellingPrice,
-                "profit": sellingPrice - buyingPrice
-            })
+            setSalesRecordsArray(salesRecordsArray)
 
-            localStorage.setItem(currentDate, JSON.stringify(salesRecordsArray))
-            if(allSalesFields.length-1 >i) {
-                salesField.parentNode.removeChild(salesField);
-            }else {
-                makeSalesInputFieldEmpty(salesField);
-            }
         })
-        
-
         showSalesRecords(currentDate)
+    }
+
+    function setSalesRecordsArray(salesRecordsArray) {
+        localStorage.setItem(currentDate, JSON.stringify(salesRecordsArray))
+    }
+
+    function makeASalesRecord({ productName, buyingPrice, sellingPrice }) {
+        return {
+            "productName": productName,
+            "buyingPrice": buyingPrice,
+            "sellingPrice": sellingPrice,
+            "profit": sellingPrice - buyingPrice
+        }
+    }
+
+    function getTheFieldsvalue(salesField) {
+        const productName = salesField.querySelector('input[placeholder="Product name"]').value;
+        const buyingPrice = salesField.querySelector('input[placeholder="Buying price"]').value;
+        const sellingPrice = salesField.querySelector('input[placeholder="Selling price"]').value;
+        return { productName, buyingPrice, sellingPrice }
     }
 
 
 
 })()
 
-localStorage.clear()
+// localStorage.clear()
 
 
 
