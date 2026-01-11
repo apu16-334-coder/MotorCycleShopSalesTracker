@@ -24,8 +24,8 @@
         </div>
     </header>
 
-    <!-- Hero: welcome and CTA -->
-    <section class="hero">
+    <!-- welcome and CTA -->
+    <section class="welcome-section">
         <div>
             <div class="badge">
                 <!-- wrench icon -->
@@ -37,7 +37,7 @@
             </div>
 
             <div class="cta secondary-cta">
-                <button class="nav-btn outline btnDashboard">Go to Dashboard</button>
+                <button class="nav-btn outline to-dashboard-button">Go to Dashboard</button>
             </div>
 
             <h2 class="title">Welcome to Perveg Seat Cover’s Shop</h2>
@@ -52,56 +52,60 @@
         </div>
     </section>
 
-    <!-- add record -->
-    <section class="add-record">
-        <div class="add-record-head">
-            <button class="nav-btn ghost left-btn sales_records">← Sales Records</button>
+    <!-- Sale Form Section -->
+    <section class="form-section sale-form-section">
+        <div class="form-head">
+            <button class="nav-btn ghost left-btn sale-cost-records-button">
+                ← Sale/Cost Records
+            </button>
 
-            <h3>Add Today’s Record</h3>
-            <!-- Plus button in header -->
-            <button id="addSalesFields" type="button" class="add-row-btn header-add-btn">＋</button>
+            <h3>Add Sale Record</h3>
+
+            <button id="addSaleInputFields" type="button" class="add-row-btn">
+                ＋
+            </button>
         </div>
 
-        <form id="dailyRecordForm">
+        <form id="saleRecordForm">
 
-            <div class="salesFields">
-                <!-- Product name row -->
-                <div class="record-row">
+            <div class="form-body">
+                <div class="input-row">
                     <input type="text" placeholder="Product name" required />
                 </div>
 
-                <!-- Buying row -->
-                <div class="record-row">
+                <div class="input-row">
                     <input type="number" placeholder="Buying price" required />
                 </div>
 
-                <!-- Selling row -->
-                <div class="record-row">
+                <div class="input-row">
                     <input type="number" placeholder="Selling price" required />
                 </div>
             </div>
 
-            <div id="sales-form-footer" class="form-footer">
-                <button id="addSalesRecord" type="submit" class="submit-btn">Save Record</button>
+            <div class="form-footer">
+                <button type="submit" class="submit-btn" >
+                    Save Record
+                </button>
             </div>
 
         </form>
     </section>
 
+
     <!-- sales records and cost records -->
-    <div class="sales-cost-records">
-        <!-- records table -->
-        <section class="records-table-section">
+    <div class="sale-cost-records">
+        <!-- sales records table -->
+        <section class="records-table-section sales-table">
             <div class="records-head">
 
-                <button class="nav-btn ghost left-btn btnDashboard">← Dashboard</button>
+                <button class="nav-btn ghost to-dashboard-button">← Dashboard</button>
 
                 <h3 class="records-title">
-                    <div id="date">01/05/2026</div>
+                    <div id="recordDate">01/05/2026</div>
                     Sales Records
                 </h3>
 
-                <button id="salesFormBtn" class="nav-btn ghost right-btn">＋ Add Sales</button>
+                <button id="toSaleFormBtn" class="nav-btn ghost">＋ Add Sale</button>
             </div>
 
             <div class="table-wrap">
@@ -123,20 +127,27 @@
 
             <div class="records-summary">
                 <div>
-                    Total Selling: ৳<span class="TotalSelling"></span>
+                    Total Selling: ৳<span class="total-selling">400</span>
                 </div>
                 <div>
-                    Total Profit: ৳<span class="TotalProfit"></span>
+                    Total Profit: ৳<span class="total-profit">500</span>
                 </div>
             </div>
 
         </section>
 
-        <!-- Cost Records -->
-        <div class="cost-section">
-            <div class="cost-head">
-                <h3>Daily Cost Records</h3>
-                <button class="add-cost-btn">＋ Add Cost</button>
+        <!-- costs records table -->
+        <section class="records-table-section cost-section">
+            <div class="records-head">
+                <h3 class="records-title">
+                    Daily Cost Records
+                </h3>
+
+                <div class="add-cost-btn-container">
+                    <button id="toCostFormBtn" class="nav-btn ghost right-btn">＋ Add Cost</button>
+                </div>
+                    
+                
             </div>
 
             <div class="table-wrap">
@@ -150,7 +161,8 @@
                             <th>Delete</th>
                         </tr>
                     </thead>
-                    <tbody>
+
+                    <tbody id="cost-table-body">
                         <tr>
                             <td>1</td>
                             <td>Employee Lunch</td>
@@ -158,30 +170,65 @@
                             <td><button class="icon-btn edit">✏️</button></td>
                             <td><button class="icon-btn delete">🗑️</button></td>
                         </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>Transport Cost</td>
-                            <td class="cost-amount">৳150</td>
-                            <td><button class="icon-btn edit">✏️</button></td>
-                            <td><button class="icon-btn delete">🗑️</button></td>
-                        </tr>
                     </tbody>
+
                 </table>
             </div>
 
-            <div class="cost-summary">
-                <span class="totalCost">Total Cost: ৳400</span>
-                <span class="netProfit">Net profit: ৳400</span>
+            <div class="records-summary">
+                <div>
+                    Total Cost: ৳<span class="total-cost">400</span>
+                </div>
+                <div>
+                    Net Profit: ৳<span class="net-profit">200</span>
+                </div>
             </div>
-        </div>
+
+        </section>
+
     </div>
+
+    <!-- Cost Form Section -->
+    <section class="form-section cost-form-section">
+        <div class="form-head">
+            <button class="nav-btn ghost left-btn saleCostRecords">
+                ← Sale/Cost Records
+            </button>
+
+            <h3>Add Cost Record</h3>
+
+            <button id="addCostInputFields" type="button" class="add-row-btn">
+                ＋
+            </button>
+        </div>
+
+        <form>
+
+            <div class="form-body">
+                <div class="input-row">
+                    <input type="text" placeholder="Cost details (Snacks, Pocket Money)" required />
+                </div>
+
+                <div class="input-row">
+                    <input type="number" placeholder="Cost amount" required />
+                </div>
+            </div>
+
+            <div class="form-footer">
+                <button type="submit" class="submit-btn" id="addSalesRecord">
+                    Save Record
+                </button>
+            </div>
+
+        </form>
+    </section>
 
     <!-- DashBoard List -->
     <section class="dashboard-list">
         <div class="dashboard-head">
-            <button class="nav-btn ghost left-btn sales_records">← Sales Records</button>
+            <button class="nav-btn ghost left-btn saleCostRecords">← Sale/Cost Records</button>
             <h3 class="dashboard-title">
-                Dashboard Daily Sales Records
+                Daily Sales Records
             </h3>
         </div>
 
@@ -219,28 +266,6 @@
     </section>
 
 
-    <!-- Add Cost Record Form -->
-    <section class="cost-form">
-        <button class="nav-btn ghost left-btn sales_records">← Sales Records</button>
-        <h3>Add Cost Records</h3>
-
-        <form>
-            <!-- Cost Details -->
-            <div class="record-row single">
-                <input type="text" placeholder="Cost details (Lunch, salary, transport)" required />
-            </div>
-
-            <!-- Cost Amount -->
-            <div class="record-row single">
-                <input type="number" placeholder="Cost amount" required />
-            </div>
-
-            <div class="form-footer">
-                <button type="submit" class="submit-btn">Add Cost</button>
-            </div>
-        </form>
-    </section>
-
     <!-- Footer -->
     <footer>
         <div class="footer-wrap">
@@ -250,7 +275,7 @@
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <!-- <script src="script.js"></script> -->
 
 </body>
 
