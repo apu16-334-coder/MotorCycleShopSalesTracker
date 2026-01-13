@@ -68,7 +68,7 @@
 
         <form id="saleRecordForm">
 
-            <div class="form-body">
+            <div class="form-body set-of-sale-input-Fields">
                 <div class="input-row">
                     <input type="text" placeholder="Product name" required />
                 </div>
@@ -121,16 +121,16 @@
                         </tr>
                     </thead>
 
-                    <tbody id="tableBody"></tbody>
+                    <tbody id="saleTableBody"></tbody>
                 </table>
             </div>
 
             <div class="records-summary">
-                <div>
-                    Total Selling: ৳<span class="total-selling">400</span>
+                <div class="total-sell">
+                    Total Sell: ৳<span id="totalSell">400</span>
                 </div>
-                <div>
-                    Total Profit: ৳<span class="total-profit">500</span>
+                <div class="total-profit">
+                    Total Profit: ৳<span id="totalProfit">500</span>
                 </div>
             </div>
 
@@ -163,24 +163,17 @@
                     </thead>
 
                     <tbody id="cost-table-body">
-                        <tr>
-                            <td>1</td>
-                            <td>Employee Lunch</td>
-                            <td class="cost-amount">৳250</td>
-                            <td><button class="icon-btn edit">✏️</button></td>
-                            <td><button class="icon-btn delete">🗑️</button></td>
-                        </tr>
                     </tbody>
 
                 </table>
             </div>
 
             <div class="records-summary">
-                <div>
-                    Total Cost: ৳<span class="total-cost">400</span>
+                <div class="total-cost">
+                    Total Cost: ৳<span id="totalCost">400</span>
                 </div>
-                <div>
-                    Net Profit: ৳<span class="net-profit">200</span>
+                <div class="net-profit">
+                    Net Profit: ৳<span id="netProfit">200</span>
                 </div>
             </div>
 
@@ -275,7 +268,7 @@
         </div>
     </footer>
 
-    <!-- <script src="script.js"></script> -->
+    <script src="script.js"></script>
 
 </body>
 

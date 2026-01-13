@@ -5,19 +5,23 @@
     const saleForm = document.querySelector(".sale-form-section")
     const saleCostRecords = document.querySelector(".sale-cost-records")
     const dashboardList = document.querySelector(".dashboard-list")
-    const costForm = document.querySelector(".cost-form")
+    const costForm = document.querySelector(".cost-form-section")
+
 
     let editFlag = false, editIndex, editDate;
+
+
 
     // Today
     const currentDate = new Date().toLocaleDateString();
     // console.log(currentDate)
 
 
-    // statements object
-    const totalSellingObj = document.querySelector(".total-selling")
-    const totalProfitObj = document.querySelector(".total-profit")
 
+    // statements object
+
+    const totalCostObj = document.querySelector(".total-cost")
+    const netProfitObj = document.querySelector(".net-profit")
 
 
 
@@ -30,17 +34,75 @@
         localStorage.setItem("dates", JSON.stringify(datesArray))
     }
 
-    function fetchSalesRecords(date) {
+    function fetchRecords(date) {
         return JSON.parse(localStorage.getItem(date));
     }
 
-    function setSalesRecordsArray(salesRecordsArray) {
-        localStorage.setItem(currentDate, JSON.stringify(salesRecordsArray))
+
+
+    function fetchRecords(date) {
+        return JSON.parse(localStorage.getItem(date));
     }
 
-    
+    function setRecordsArray(salesCostsRecordsArray) {
+        localStorage.setItem(currentDate, JSON.stringify(salesCostsRecordsArray))
+    }
 
 
+
+    // All Other Function
+    function makeInputFieldsEmpty(setOfInputFields) {
+        for (const inputField of setOfInputFields.querySelectorAll("input")) {
+            inputField.value = "";
+        }
+    }
+
+    function makeNewSetOfSaleInputFields(salesFields) {
+        const newSalesFields = salesFields.cloneNode(true);
+        return newSalesFields;
+    }
+
+    function makeASalesRecord({ productName, buyingPrice, sellingPrice }) {
+        return {
+            "productName": productName,
+            "buyingPrice": buyingPrice,
+            "sellingPrice": sellingPrice,
+            "profit": sellingPrice - buyingPrice
+        }
+    }
+
+    function getSalesInputFieldsValue(salesField) {
+        const productName = salesField.querySelector('input[placeholder="Product name"]').value;
+        const buyingPrice = salesField.querySelector('input[placeholder="Buying price"]').value;
+        const sellingPrice = salesField.querySelector('input[placeholder="Selling price"]').value;
+        return { productName, buyingPrice, sellingPrice }
+    }
+
+    function cleanExtraSetOfInputFields(allSetOfInputFields) {
+        let cleanSetOfInputFields;
+        allSetOfInputFields.forEach((setOfInputFields, i) => {
+            if (i == !0) {
+                setOfInputFields.parentNode.removeChild(setOfInputFields);
+            } else {
+                cleanSetOfInputFields = setOfInputFields;
+            }
+        })
+
+        return cleanSetOfInputFields;
+    }
+
+    function displaySaleForm() {
+        welcome.style.display = "none";
+        saleCostRecords.style.display = "none";
+        dashboardList.style.display = "none";
+        costForm.style.display = "none";
+
+        saleForm.style.display = "block";
+    }
+
+    function addingRecords() {
+
+    }
 
 
     // Dynamic Event Listener Function
@@ -81,75 +143,30 @@
 
 
 
-    // All Other Function
-    function makeInputFieldsEmpty(setOfInputFields) {
-        for (const inputField of setOfInputFields.querySelectorAll("input")) {
-            inputField.value = "";
-        }
-    }
-
-    function makeNewSetOfSaleInputFields(salesFields) {
-        const newSalesFields = salesFields.cloneNode(true);
-        return newSalesFields;
-    }
-
-    function makeASalesRecord({ productName, buyingPrice, sellingPrice }) {
-        return {
-            "productName": productName,
-            "buyingPrice": buyingPrice,
-            "sellingPrice": sellingPrice,
-            "profit": sellingPrice - buyingPrice
-        }
-    }
-
-    function getTheSalesInputFieldsValue(salesField) {
-        const productName = salesField.querySelector('input[placeholder="Product name"]').value;
-        const buyingPrice = salesField.querySelector('input[placeholder="Buying price"]').value;
-        const sellingPrice = salesField.querySelector('input[placeholder="Selling price"]').value;
-        return { productName, buyingPrice, sellingPrice }
-    }
-
-    function cleanExtraSetOfInputFields(allSetOfInputFields) {
-        let cleanSetOfInputFields;
-        allSetOfInputFields.forEach((setOfInputFields, i) => {
-            if (i ==! 0) {
-                setOfInputFields.parentNode.removeChild(setOfInputFields);
-            }else {
-                cleanSetOfInputFields = setOfInputFields;
-            }
-        })
-
-        return cleanSetOfInputFields;
-    }
-
-
-    function showSaleForm() {
-        welcome.style.display = "none";
-        saleCostRecords.style.display = "none";
-        dashboardList.style.display = "none";
-        costForm.style.display = "none";
-
-        saleForm.style.display = "block";
-    }
-
-
     // All event Listener
     document.getElementById("startToday").addEventListener("click", createTodayRecords)
 
-    document.getElementById("addSaleInputFields").addEventListener("click", addingAnotherSetOfSaleInputFields)
+    document.getElementById("addSaleInputFields").addEventListener("click", () => {
+        const setOfSaleInputFields = document.querySelector(".set-of-sale-input-Fields");
+        addingAnotherSetOfSaleFields(setOfSaleInputFields)
+    })
 
     document.getElementById("saleRecordForm").addEventListener("submit", (event) => {
         console.log(editFlag)
         if (editFlag) {
             addEditSalesRecords(event)
         } else {
-            addingSalesRecords(event)
+            const allSetOfSaleInputFields = document.querySelectorAll(".set-of-sale-input-Fields")
+            let index = 0;
+            let recordName = "sale"
+
+            addingRecords(event, allSetOfSaleInputFields, index, recordName, getSalesInputFieldsValue, makeASalesRecord)
         }
     })
 
     document.querySelectorAll(".sale-cost-records-button").forEach((element) => {
         element.addEventListener("click", () => {
-            showSalesRecords(currentDate);
+            showSalesRecords();
         })
     })
 
@@ -158,16 +175,13 @@
         makeReadyToInsertRecords(allSetOfSaleInputFields)
     })
 
-    document.getElementById("toCostFormBtn").addEventListener("click", makeReadyToInsertCostRecords)
+    document.getElementById("toCostFormBtn").addEventListener("click", () => {
+
+    })
 
     document.querySelectorAll(".to-dashboard-button").forEach((element) => {
         element.addEventListener("click", showDashBoard);
     })
-
-
-
-
-
 
 
 
@@ -178,7 +192,7 @@
         if (!fetchDatesArray()) {
             datesArray.push(currentDate)
             setDatesArray(datesArray)
-            showSaleForm()
+            displaySaleForm()
             return;
         }
 
@@ -187,81 +201,113 @@
         if (!datesArray.includes(currentDate)) {
             datesArray.push(currentDate)
             setDatesArray(datesArray)
-            showSaleForm()
+            displaySaleForm()
             return;
         }
 
         showSalesRecords(currentDate)
-    }  
+    }
 
     function makeReadyToInsertRecords(allSetOfInputFields) {
         const cleanSetOfInputFields = cleanExtraSetOfInputFields(allSetOfInputFields)
         makeInputFieldsEmpty(cleanSetOfInputFields)
-        showSaleForm()        
+        displaySaleForm()
         editFlag = false;
     }
 
-    function addingAnotherSetOfSaleInputFields() {
-        const setOfsaleInputFields = document.querySelector(".set-of-sale-input-Fields");
+    function addingAnotherSetOfSaleFields(setOfInputFields) {
+
         const SalesFormFooter = document.getElementById("sales-form-footer")
 
-        const newSetOfsaleInputFields = makeNewSetOfSaleInputFields(setOfsaleInputFields)
+        const newSetOfsaleFields = makeNewSetOfSaleInputFields(setOfInputFields)
 
-        makeInputFieldsEmpty(newSetOfsaleInputFields)
+        makeInputFieldsEmpty(newSetOfsaleFields)
 
-        setOfsaleInputFields.parentNode.insertBefore(newSetOfsaleInputFields, SalesFormFooter)
+        setOfInputFields.parentNode.insertBefore(newSetOfsaleFields, SalesFormFooter)
     }
 
-    function showSalesRecords() {
-        const tableBody = document.getElementById("tableBody")
-        tableBody.innerHTML = "";
 
+    function displaySalesCostsRecords() {
         welcome.style.display = "none";
         saleForm.style.display = "none";
         dashboardList.style.display = "none";
         costForm.style.display = "none";
 
-        document.getElementById("date").innerText = currentDate;
-
-        let salesRecordsArray = fetchSalesRecords(currentDate)
-        console.log(salesRecordsArray)
-        let totalSelling = 0, totalProfit = 0;
-
-        if (salesRecordsArray) {
-            salesRecordsArray.forEach((record, i) => {
-                let tableRow = document.createElement("tr");
-                tableRow.innerHTML = `<td>${record.productName}</td>
-                            <td>${record.buyingPrice}</td>
-                            <td>${record.sellingPrice}</td>
-                            <td class="profit">${record.profit}</td>
-                            <td><button data-index="${i}" class="icon-btn edit">✏️</button></td>
-                            <td><button data-index="${i}" class="icon-btn delete">🗑️</button></td>`
-                tableBody.appendChild(tableRow)
-                // console.log(tableRow.querySelector(".edit"))
-                // console.log(tableRow.querySelector(".delete"))
-                tableRow.querySelector(".edit").addEventListener("click", makeReadyToEditTheRecord)
-                tableRow.querySelector(".delete").addEventListener("click", deleteTheRecord)
-
-                totalSelling += Number(record.sellingPrice);
-                totalProfit += Number(record.profit);
-            })
-
-        }
-        console.log(totalSelling + " " + totalProfit)
-        totalSellingObj.textContent = totalSelling;
-        totalProfitObj.textContent = totalProfit;
-
         saleCostRecords.style.display = "block";
     }
 
-    function makeReadyToInsertCostRecords() {
-        welcome.style.display = "none"
-        saleForm.style.display = "none"
-        saleCostRecords.style.display = "none"
-        dashboardList.style.display = "none"
+    function getSaleTableRowString(record, i) {
+        return `<td>${record.productName}৳</td>
+                <td>${record.buyingPrice}৳</td>
+                <td>${record.sellingPrice}৳</td>
+                <td class="profit">${record.profit}</td>
+                <td><button data-index="${i}" class="icon-btn edit">✏️</button></td>
+                <td><button data-index="${i}" class="icon-btn delete">🗑️</button></td>`
+    }
+
+    function getCostTableRowString(record, i) {
+        return `<td>${i}</td>
+                <td>${record.costDetails}৳</td>
+                <td class="cost-amount">250৳</td>
+                <td><button class="icon-btn edit">✏️</button></td>
+                <td><button class="icon-btn delete">🗑️</button></td>`
+    }
+
+    function makeReadyToShowRecords(tableBody, index, recordName) {
+        let recordsArray = fetchRecords(currentDate)[index][recordName]
+        console.log(recordsArray)
+        let totalSell = 0, totalProfit = 0, totalCost = 0;
+
+        if (recordsArray) {
+            recordsArray.forEach((record, i) => {
+                let tableRow = document.createElement("tr");
+                tableRow.innerHTML = (recordName === "sale") ? getSaleTableRowString(record, i) : getCostTableRowString(record, i)
+
+                tableBody.appendChild(tableRow)
+                // console.log(tableRow.querySelector(".edit"))
+                // console.log(tableRow.querySelector(".delete"))
+                tableRow.querySelector(".edit").addEventListener("click", () => {
+                    makeReadyToEditTheRecord(recordName)
+                })
+                tableRow.querySelector(".delete").addEventListener("click", () => {
+                    deleteTheRecord(recordName)
+                })
+
+                if (recordName === "sale") {
+                    totalSell += Number(record.sellingPrice);
+                    totalProfit += Number(record.profit);
+                } else {
+                    totalCost += Number(record.costAmount)
+                }
+            })
+
+        }
+        console.log(totalSell + " " + totalProfit)
+        console.log(totalCost)
+        if (recordName === "sale") {
+            return [totalSell, totalProfit]
+        } else {
+            return totalCost
+        }
+    }
+
+    function setSaleRecordSummary(totalSell, totalProfit) {
+        document.getElementById("totalSell").innerHTML = totalSell;
+        document.getElementById("totalProfit").innerHTML = totalProfit;
+    }
+
+    function showSalesCostsRecords() {
+        document.getElementById("recordDate").innerText = currentDate;
+        // makeReadyToShowSalesRecords()
+        const saleTableBody = document.getElementById("saleTableBody")
+        saleTableBody.innerHTML = "";
+        let [totalSell, totalProfit] = makeReadyToShowRecords(saleTableBody, 0, "sale")
+        setSaleRecordSummary(totalSell, totalProfit)
 
 
-        costForm.style.display = "block";
+
+
+        displaySalesCostsRecords();
     }
 
     function showDashBoard() {
@@ -276,28 +322,35 @@
 
 
     // All Form Submit Function
-    function addingSalesRecords(event) {
+
+
+    function addingRecords(event, allSetOfInputFields, index, recordName, getInputFieldsValue, makeARecord) {
         event.preventDefault()
-        const allSalesFields = document.querySelectorAll(".salesFields")
         console.log("called adding sales records");
 
-        let salesRecordsArray = fetchSalesRecords(currentDate)
-
-        if (!salesRecordsArray) {
-            salesRecordsArray = []
+        let salesCostsRecordsArray = fetchRecords(currentDate)
+        let recordsArray = []
+        if (salesCostsRecordsArray) {
+            recordsArray = salesCostsRecordsArray[index][recordName]
+        } else {
+            salesCostsRecordsArray = [{}, {}]
         }
 
-        allSalesFields.forEach((salesField, i) => {
-            const allFieldsValue = getTheSalesInputFieldsValue(salesField)
-            const record = makeASalesRecord(allFieldsValue)
+        allSetOfInputFields.forEach((setOfinputFields, i) => {
+            const allFieldsValue = getInputFieldsValue(setOfinputFields)
+            const record = makeARecord(allFieldsValue)
 
-            salesRecordsArray.push(record)
+            recordsArray.push(record)
+            salesCostsRecordsArray[0].sale = recordsArray;
 
-            setSalesRecordsArray(salesRecordsArray)
-
+            setRecordsArray(salesCostsRecordsArray);
         })
-        showSalesRecords(currentDate)
+
+        showSalesCostsRecords(currentDate)
     }
+
+
+
 
     function addEditSalesRecords(event) {
         event.preventDefault()
@@ -318,8 +371,7 @@
 
 })()
 
-// localStorage.clear()
-
+localStorage.clear()
 
 
 

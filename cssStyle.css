@@ -403,7 +403,7 @@ tbody tr:hover {
     background: rgba(16, 185, 129, 0.04);
 }
 
-.profit {
+.profit, .net-profit, .total-profit {
     color: #047857;
     font-weight: 600;
 }
@@ -414,14 +414,6 @@ tbody tr:hover {
     background: transparent;
     cursor: pointer;
     font-size: 1.05rem;
-}
-
-.icon-btn.edit:hover {
-    color: #2563eb;
-}
-
-.icon-btn.delete:hover {
-    color: #dc2626;
 }
 
 /* Summary */
@@ -448,12 +440,8 @@ tbody tr:hover {
     font-weight: 600;
 }
 
-.totalCost {
+.total-cost {
     color: #b91c1c;
-}
-
-.netProfit {
-    color: #059669;
 }
 
 
