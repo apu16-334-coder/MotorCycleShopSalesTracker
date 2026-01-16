@@ -8,7 +8,7 @@
     const costForm = document.querySelector(".cost-form-section")
 
 
-    let editFlag = false, editIndex, editDate;
+    let editFlag = false, editIndex, editDate, dashboardFlag = false;
 
 
 
@@ -106,29 +106,7 @@
 
 
 
-    // Display All Forms
-    function displayForm(form) {
-        welcome.style.display = "none";
-        saleCostRecords.style.display = "none";
-        dashboardList.style.display = "none";
-        costForm.style.display = "none";
-        saleForm.style.display = "none";
-
-        form.style.display = "block";
-    }
-
-
-
     // All Table Function
-    function displaySalesCostsRecords() {
-        welcome.style.display = "none";
-        saleForm.style.display = "none";
-        dashboardList.style.display = "none";
-        costForm.style.display = "none";
-
-        saleCostRecords.style.display = "block";
-    }
-
     function makeReadyToShowRecords(salesCostsRecordsArray, tableBody, index, recordName) {
         let recordsArray = salesCostsRecordsArray[index][recordName]
         console.log(recordsArray)
@@ -137,17 +115,29 @@
         if (recordsArray) {
             recordsArray.forEach((record, i) => {
                 let tableRow = document.createElement("tr");
-                tableRow.innerHTML = (recordName === "sale") ? getSaleTableRowString(record, i) : getCostTableRowString(record, i)
+                tableRowString = (recordName === "sale") ? getSaleTableRowString(record, i) : getCostTableRowString(record, i)
+
+                let editAndDeleteButtonColoumn = `<td><button data-index="${i}" class="icon-btn edit">✏️</button></td>
+                <td><button data-index="${i}" class="icon-btn delete">🗑️</button></td>`
+
+                if (dashboardFlag) {
+                    tableRow.innerHTML = tableRowString
+                } else {
+                    tableRow.innerHTML = tableRowString + editAndDeleteButtonColoumn;
+                }
+
 
                 tableBody.appendChild(tableRow)
                 // console.log(tableRow.querySelector(".edit"))
                 // console.log(tableRow.querySelector(".delete"))
-                tableRow.querySelector(".edit").addEventListener("click", (event) => {
-                    makeReadyToEditTheRecord(event, recordName)
-                })
-                tableRow.querySelector(".delete").addEventListener("click", (event) => {
-                    deleteTheRecord(event, recordName)
-                })
+                if (!dashboardFlag) {
+                    tableRow.querySelector(".edit").addEventListener("click", (event) => {
+                        makeReadyToEditTheRecord(event, recordName)
+                    })
+                    tableRow.querySelector(".delete").addEventListener("click", (event) => {
+                        deleteTheRecord(event, recordName)
+                    })
+                }
 
                 if (recordName === "sale") {
                     totalSell += Number(record.sellingPrice);
@@ -175,16 +165,14 @@
                 <td>${record.buyingPrice}</td>
                 <td>${record.sellingPrice}</td>
                 <td class="profit">${record.profit}</td>
-                <td><button data-index="${i}" class="icon-btn edit">✏️</button></td>
-                <td><button data-index="${i}" class="icon-btn delete">🗑️</button></td>`
+                `
     }
 
     function getCostTableRowString(record, i) {
         return `<td>${i + 1}</td>
                 <td>${record.costDetails}</td>
                 <td class="cost-amount">${record.costAmount}</td>
-                <td><button data-index="${i}" class="icon-btn edit">✏️</button></td>
-                <td><button data-index="${i}" class="icon-btn delete">🗑️</button></td>`
+                `
     }
 
 
@@ -201,6 +189,8 @@
     }
 
 
+
+    // All Set InputFields Value Function
     function setSaleInputFieldsValue(saleCostRecordsArray) {
         theRecord = saleCostRecordsArray[0].sale[editIndex]
         console.log(theRecord)
@@ -231,6 +221,82 @@
         setOfSaleInputFields.querySelector('input[placeholder="Cost details"]').value = costDetails;
         setOfSaleInputFields.querySelector('input[placeholder="Cost amount"]').value = costAmount;
     }
+
+
+    // All Display Function
+    function displayDashboard() {
+        welcome.style.display = "none";
+        saleForm.style.display = "none";
+        costForm.style.display = "none";
+        saleCostRecords.style.display = "none";
+
+        dashboardList.style.display = "block";
+    }
+
+    function displayForm(form) {
+        welcome.style.display = "none";
+        saleCostRecords.style.display = "none";
+        dashboardList.style.display = "none";
+        costForm.style.display = "none";
+        saleForm.style.display = "none";
+
+        form.style.display = "block";
+    }
+
+    function displaySalesCostsRecords() {
+        welcome.style.display = "none";
+        saleForm.style.display = "none";
+        dashboardList.style.display = "none";
+        costForm.style.display = "none";
+
+
+        if (dashboardFlag) {
+            document.getElementById("toSaleFormBtn").style.display = "none"
+            document.getElementById("toCostFormBtn").style.display = "none"
+            document.getElementById("saleTableHead").innerHTML = `
+                <tr>
+                    <th>Product Name</th>
+                    <th>Buying Price</th>
+                    <th>Selling Price</th>
+                    <th>Profit</th>
+                </tr>
+            `
+
+            document.getElementById("costTableHead").innerHTML = `
+                    <tr>
+                        <th>No</th>
+                        <th>Cost Details</th>
+                        <th>Cost Amount</th>
+                    </tr>
+                `
+        } else {
+            document.getElementById("toSaleFormBtn").style.display = "block"
+            document.getElementById("toCostFormBtn").style.display = "block"
+            document.getElementById("saleTableHead").innerHTML = `
+                                <tr>
+                                    <th>Product Name</th>
+                                    <th>Buying Price</th>
+                                    <th>Selling Price</th>
+                                    <th>Profit</th>
+                                    <th>Edit</th>
+                                    <th>Delete</th>
+                                </tr>`
+
+            document.getElementById("costTableHead").innerHTML = `
+                                <tr>
+                                    <th>No</th>
+                                    <th>Cost Details</th>
+                                    <th>Cost Amount</th>
+                                    <th>Edit</th>
+                                    <th>Delete</th>
+                                </tr>`
+        }
+
+        saleCostRecords.style.display = "block";
+    }
+
+
+
 
     // Dynamic Event Listener Function
     function makeReadyToEditTheRecord(event, recordName) {
@@ -333,6 +399,10 @@
         element.addEventListener("click", showDashBoard);
     })
 
+    document.querySelector(".go-to-welcome-button").addEventListener("click",()=>{
+        dashboardList.style.display = "none"
+        welcome.style.display = "block"
+    })
 
 
     // All event Listener Function
@@ -376,45 +446,59 @@
     }
 
     function showSalesCostsRecords(date) {
+        console.log(date)
         let salesCostsRecordsArray = fetchRecords(date)
+        console.log(salesCostsRecordsArray)
+
+        const saleTableBody = document.getElementById("saleTableBody")
+        saleTableBody.innerHTML = "";
+
+        const costTableBody = document.getElementById("costTableBody")
+        costTableBody.innerHTML = "";
+
+        document.getElementById("recordDate").innerText = date;
 
         if (salesCostsRecordsArray) {
-            document.getElementById("recordDate").innerText = date;
-            // makeReadyToShowSalesRecords()
-            const saleTableBody = document.getElementById("saleTableBody")
-            saleTableBody.innerHTML = "";
             let [totalSell, totalProfit] = makeReadyToShowRecords(salesCostsRecordsArray, saleTableBody, 0, "sale")
             setSaleRecordSummary(totalSell, totalProfit)
 
-            const costTableBody = document.getElementById("costTableBody")
-            costTableBody.innerHTML = "";
             let totalCost = makeReadyToShowRecords(salesCostsRecordsArray, costTableBody, 1, "cost")
             setCostRecordSummary(totalCost, totalProfit - totalCost)
+        } else {
+            setSaleRecordSummary(0, 0)
+            setCostRecordSummary(0, 0)
         }
 
         displaySalesCostsRecords();
     }
 
-    function displayDashboard() {
-        welcome.style.display = "none";
-        saleForm.style.display = "none";
-        costForm.style.display = "none";
-        saleCostRecords.style.display = "none";
-
-        dashboardList.style.display = "block";
-    }
-
     function showDashBoard() {
+        const saleCostRecordsArray = fetchDatesArray()
         const dashboardRecords = document.getElementById("dashboardRecords")
-        fetchDatesArray().forEach((date, i) => {
-            const li = document.createElement("li")
-            li.innerHTML = `<span class="record-date">${date}</span>
+        dashboardRecords.innerHTML = ""
+
+        if (saleCostRecordsArray) {
+            dashboardList.querySelector(".go-to-welcome-button").style.display = "none";
+            dashboardList.querySelector(".sale-cost-records-button").style.display = "inline";
+            saleCostRecordsArray.forEach((date, i) => {
+                const li = document.createElement("li")
+                li.innerHTML = `<span class="record-date">${date}</span>
                             <div class="record-actions">
-                                <button class="action-btn open">Open</button>
-                                <button class="action-btn delete">Delete</button>
+                                <button data-index="${i}" class="action-btn open">Open</button>
                             </div>`
-            dashboardRecords.appendChild(li);
-        })
+                dashboardRecords.appendChild(li);
+                li.querySelector(".open").addEventListener("click", () => {
+                    dashboardFlag = true;
+                    showSalesCostsRecords(date)
+                    dashboardFlag = false;
+                })
+            })
+        } else {
+            dashboardList.querySelector(".go-to-welcome-button").style.display = "inline";
+            dashboardList.querySelector(".sale-cost-records-button").style.display = "none";
+        }
+
+
 
         displayDashboard()
     }
@@ -476,6 +560,6 @@
     }
 })()
 
-// localStorage.clear()
+localStorage.clear()
 
 

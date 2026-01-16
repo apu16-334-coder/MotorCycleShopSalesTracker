@@ -83,7 +83,7 @@
             </div>
 
             <div class="form-footer">
-                <button type="submit" class="submit-btn" >
+                <button type="submit" class="submit-btn">
                     Save Record
                 </button>
             </div>
@@ -109,16 +109,7 @@
 
             <div class="table-wrap">
                 <table>
-                    <thead>
-                        <tr>
-                            <th>Product Name</th>
-                            <th>Buying Price</th>
-                            <th>Selling Price</th>
-                            <th>Profit</th>
-                            <th>Edit</th>
-                            <th>Delete</th>
-                        </tr>
-                    </thead>
+                    <thead id="saleTableHead"></thead>
 
                     <tbody id="saleTableBody"></tbody>
                 </table>
@@ -145,21 +136,13 @@
                 <div class="add-cost-btn-container">
                     <button id="toCostFormBtn" class="nav-btn ghost right-btn">＋ Add Cost</button>
                 </div>
-                    
-                
+
+
             </div>
 
             <div class="table-wrap">
                 <table>
-                    <thead>
-                        <tr>
-                            <th>No</th>
-                            <th>Cost Details</th>
-                            <th>Cost Amount</th>
-                            <th>Edit</th>
-                            <th>Delete</th>
-                        </tr>
-                    </thead>
+                    <thead id="costTableHead"></thead>
 
                     <tbody id="costTableBody">
                     </tbody>
@@ -218,15 +201,26 @@
     <!-- DashBoard List -->
     <section class="dashboard-list">
         <div class="dashboard-head">
-            <button class="nav-btn ghost left-btn saleCostRecords">← Sale/Cost Records</button>
+            <button class="nav-btn ghost left-btn sale-cost-records-button">
+                ← Sale/Cost Records
+            </button>
+            <button class="nav-btn ghost left-btn go-to-welcome-button">
+                    ← Welcome
+                </button>
             <h3 class="dashboard-title">
                 Daily Sales Records
             </h3>
+
+            
+
         </div>
 
 
         <ul id="dashboardRecords" class="record-items"></ul>
+
     </section>
+
+
 
 
     <!-- Footer -->
