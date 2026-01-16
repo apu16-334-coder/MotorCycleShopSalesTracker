@@ -52,10 +52,10 @@
     function cleanExtraSetOfInputFields(allSetOfInputFields) {
         let cleanSetOfInputFields;
         allSetOfInputFields.forEach((setOfInputFields, i) => {
-            if (i == !0) {
-                setOfInputFields.parentNode.removeChild(setOfInputFields);
-            } else {
+            if (i === 0) {
                 cleanSetOfInputFields = setOfInputFields;
+            } else {
+                setOfInputFields.parentNode.removeChild(setOfInputFields);
             }
         })
 
@@ -256,17 +256,17 @@
         console.log(event.target.dataset.index)
         const saleCostRecordsArray = fetchRecords(currentDate);
         let recordsArray;
-        if(recordName === "sale"){
+        if (recordName === "sale") {
             recordsArray = saleCostRecordsArray[0].sale
-        }else {
+        } else {
             recordsArray = saleCostRecordsArray[1].cost
         }
 
         recordsArray.splice(event.target.dataset.index, 1);
-        
-        if(recordName === "sale"){
+
+        if (recordName === "sale") {
             saleCostRecordsArray[0].sale = recordsArray
-        }else {
+        } else {
             saleCostRecordsArray[1].cost = recordsArray
         }
 
@@ -395,13 +395,28 @@
         displaySalesCostsRecords();
     }
 
-    function showDashBoard() {
+    function displayDashboard() {
         welcome.style.display = "none";
         saleForm.style.display = "none";
         costForm.style.display = "none";
         saleCostRecords.style.display = "none";
 
         dashboardList.style.display = "block";
+    }
+
+    function showDashBoard() {
+        const dashboardRecords = document.getElementById("dashboardRecords")
+        fetchDatesArray().forEach((date, i) => {
+            const li = document.createElement("li")
+            li.innerHTML = `<span class="record-date">${date}</span>
+                            <div class="record-actions">
+                                <button class="action-btn open">Open</button>
+                                <button class="action-btn delete">Delete</button>
+                            </div>`
+            dashboardRecords.appendChild(li);
+        })
+
+        displayDashboard()
     }
 
 
